@@ -75,6 +75,9 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 
 ### Yapılanlar
 -Sign up page
+
 -Login page
+
 -iki page için de dinamik input fonksiyonu 
+
 -Api ayarlarının yapılması
