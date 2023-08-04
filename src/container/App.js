@@ -8,7 +8,7 @@ import UserPage from '../pages/UserPage';
 import { BrowserRouter, Route, Redirect, Switch, HashRouter } from 'react-router-dom/cjs/react-router-dom.min';
 import TopBar from '../components/TopBar';
 //hasrouter vs broweser router?
-
+//HashRouter as Router
 function App() {
   return (
     <div >

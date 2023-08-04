@@ -81,3 +81,9 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 -iki page için de dinamik input fonksiyonu 
 
 -Api ayarlarının yapılması
+
+-Home Page
+
+-Navbar
+
+-Link yönlendirmeleri

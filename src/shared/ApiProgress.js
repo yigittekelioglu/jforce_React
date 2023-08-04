@@ -19,7 +19,7 @@ export function withApiProgress(WrappedComponent, apiPath){
         //ınterceptor onemlı işlem başında ve sonunda bakıyo, request bası ve response işlem sonrası
         componentDidMount(){
             
-            axios.interceptors.request.use((request) =>{
+            this.requestInterceptor = axios.interceptors.request.use((request) =>{
                 //if(request.url == this.props.path){
                 //    this.setState({pendingApiCall: true })
                 //}
@@ -28,7 +28,7 @@ export function withApiProgress(WrappedComponent, apiPath){
                 return request;
             })
     
-            axios.interceptors.response.use((response) =>{
+            this.responseInterceptor = axios.interceptors.response.use((response) =>{
                 //if(response.config.url == this.props.path){
                 //    this.setState({pendingApiCall: false })
                 //}
@@ -41,6 +41,12 @@ export function withApiProgress(WrappedComponent, apiPath){
                 this.updateApiCallFor(error.config.url, false);
                 throw error;
             })
+        }
+
+        //Mount fonksiyonun kapanmasına yarıyor ki bi sayfadan baska sayfaya git gel yapınca performans acıgı ortaya cıkmasın
+        componentWillUnmount() {
+            axios.interceptors.request.eject(this.requestInterceptor);
+            axios.interceptors.response.eject(this.responseInterceptor);
         }
     
         updateApiCallFor = (url, inProgress) => {
