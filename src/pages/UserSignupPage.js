@@ -1,7 +1,8 @@
 import React from "react";
 import {signup} from '../api/apiCalls';
 import {Input} from '../components/Input';
-
+import ButtonWithProgress from "../components/ButtonWithProgress";
+import { withApiProgress } from "../shared/ApiProgress";
 
 
 
@@ -11,10 +12,8 @@ class UserSignupPage extends React.Component{
         username: null,
         password: null,
         passwordAgain: null,
-        pendingApiCall: false,
-        errors: {
-
-        }
+        //pendingApiCall: false,
+        errors: {}
     };
 
     onChange = event =>{
@@ -48,7 +47,7 @@ class UserSignupPage extends React.Component{
             username,
             password
         };
-        this.setState({pendingApiCall: false});
+        //this.setState({pendingApiCall: false});
 
         try{
             const response = await signup(body);
@@ -60,7 +59,7 @@ class UserSignupPage extends React.Component{
             
             
         }
-        this.setState({pendingApiCall: false});
+        //this.setState({pendingApiCall: false});
         
 
         /*
@@ -94,7 +93,8 @@ class UserSignupPage extends React.Component{
     */
 
     render(){
-        const {pendingApiCall, errors} = this.state;
+        const {pendingApiCall} = this.props;
+        const { errors} = this.state;
         const {username, password, passwordAgain} = errors;
 
 
@@ -107,9 +107,9 @@ class UserSignupPage extends React.Component{
                 <Input name="passwordAgain" label="Password Again" error={passwordAgain} onChange={this.onChange} type="password"/>
 
                 <div className="text-center">
-                    <button className="mt-3 btn btn-secondary" onClick={this.onClickSignup} disabled={pendingApiCall || passwordAgain != undefined}> {pendingApiCall && <span className="spinner-border spinner-border-sm"></span> } 
+                    <ButtonWithProgress  onClick={this.onClickSignup} disabled={pendingApiCall || passwordAgain != undefined} pendingApiCall={pendingApiCall}> {pendingApiCall && <span className="spinner-border spinner-border-sm"></span> } 
                         Sign Up
-                    </button>
+                    </ButtonWithProgress>
                 </div>
                 {/*<div className="mt-3">
                     <label>Username</label>
@@ -134,6 +134,8 @@ class UserSignupPage extends React.Component{
     }
 } 
 
-export default UserSignupPage;
+const UserSignupPageWithApiProgress = withApiProgress(UserSignupPage, '/api/1.0/users');
+
+export default UserSignupPageWithApiProgress;
 
 /* btn'deki kod conditiona rendering. */
