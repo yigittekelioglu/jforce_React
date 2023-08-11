@@ -1,13 +1,15 @@
-import React, { Component } from 'react';
+import React from 'react';
+import ProfileCard from '../components/ProfileCard';
 
-class UserPage extends Component {
-    render() {
-        return (
-            <div className='container'>
-                User Page
-            </div>
-        );
-    }
+
+const UserPage = (props) => {
+    
+    return (
+        <div className='container'>
+            <ProfileCard username={props.username}/>
+        </div>
+    );
+    
 }
 
 export default UserPage;

@@ -6,14 +6,17 @@ import UserSignupPage from './pages/UserSignupPage';
 import reportWebVitals from './reportWebVitals';
 import LoginPage from './pages/LoginPage';
 import ApiProgress from './shared/ApiProgress';
-
+import AuthenticationContext from './shared/AuthenticationContext';
 
 
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <App/>
+  <AuthenticationContext>
+    <App/>
+  </AuthenticationContext>
+  
   /*
   <React.StrictMode>
     <ApiProgress>
