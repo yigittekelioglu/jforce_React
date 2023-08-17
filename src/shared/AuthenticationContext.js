@@ -9,10 +9,12 @@ class AuthenticationContext extends Component {
     state = {
         isLoggedIn: false,
         username: undefined,
-        password: undefined
+        password: undefined,
+        role: undefined
     };
     
     onLoginSuccess = authState =>{
+        console.log(authState); 
         this.setState({
             ...authState,
             isLoggedIn: true
@@ -22,7 +24,8 @@ class AuthenticationContext extends Component {
     onLogoutSuccess = () => {
         this.setState({
           isLoggedIn: false,
-          username: undefined
+          username: undefined,
+          role: undefined
         })
     }
 

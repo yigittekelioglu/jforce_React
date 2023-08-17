@@ -8,10 +8,13 @@ import UserPage from '../pages/UserPage';
 import { BrowserRouter, Route, Redirect, Switch, HashRouter } from 'react-router-dom/cjs/react-router-dom.min';
 import TopBar from '../components/TopBar';
 import { render } from '@testing-library/react';
+import AdminPage from '../pages/AdminPage';
+import IkPage from '../pages/IkPage';
+import InventoryPage from '../pages/InventoryPage';
 //hasrouter vs broweser router?
 //HashRouter as Router
 import { Authentication } from '../shared/AuthenticationContext';
-
+import ProtectedRoute from '../shared/ProtectedRoute';
 
 
 
@@ -37,6 +40,11 @@ class App extends React.Component {
             {!isLoggedIn && <Route path="/login" component={LoginPage}/>}
             <Route path="/signup" component={UserSignupPage}/>
             <Route path="/user/:username" component={UserPage}/>
+
+            <ProtectedRoute path="/admin" component={AdminPage} role="ADMIN" />
+            <ProtectedRoute path="/ik" component={IkPage} role="IK" />
+            <ProtectedRoute path="/inventory" component={InventoryPage} role="INVENTORYMASTER" />
+
             <Redirect to="/" />
           </Switch>
         </HashRouter>

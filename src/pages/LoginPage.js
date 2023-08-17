@@ -47,12 +47,26 @@ class LoginPage extends Component {
 
         try{
             const response = await login(creds);
-            push('/');
+            //console.log(response.data);
+            //push('/');
             const authState = {
                 ...response.data,
                 password
             }
             onLoginSuccess(authState);
+
+            const { role } = response.data;
+            if (role && role.name === 'ADMIN') {
+                push('/admin');
+            } else if (role && role.name === 'IK') {
+                push('/ik');
+            } else if (role && role.name === 'INVENTORYMASTER') {
+                push('/inventory');
+            } else {
+                push('/'); 
+            }
+
+
         } catch(apiError){
             
             this.setState({
