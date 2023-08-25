@@ -14,11 +14,11 @@ const ProtectedRoute = ({component: Component, role, ...rest}) => {
                     return <Redirect to="/login" />;
                 }
 
-                // Eğer kullanıcının rolü 'ADMIN' veya belirtilen role eşitse bu kontrolü geç
+                
                 if (currentUserRole.name === 'ADMIN' || currentUserRole.name === role) {
                     return <Component {...props} />;
                 } else {
-                    context.onLogoutSuccess();  // Kullanıcının oturumunu kapat
+                    context.onLogoutSuccess();  
                     return <Redirect to="/login" />;
                 }
                 
