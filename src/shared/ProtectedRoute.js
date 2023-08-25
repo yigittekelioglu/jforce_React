@@ -16,6 +16,7 @@ const ProtectedRoute = ({component: Component, role, ...rest}) => {
                 }
 
                 
+                
                 if (currentUserRole.name === 'ADMIN' || currentUserRole.name === role) {
                     return <Component {...props} />;
                 } 

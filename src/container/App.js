@@ -1,4 +1,3 @@
-
 import React from 'react';
 import ApiProgress from '../shared/ApiProgress';
 import UserSignupPage from '../pages/UserSignupPage';
@@ -7,32 +6,27 @@ import HomePage from '../pages/HomePage';
 import UserPage from '../pages/UserPage';
 import { BrowserRouter, Route, Redirect, Switch, HashRouter } from 'react-router-dom/cjs/react-router-dom.min';
 import TopBar from '../components/TopBar';
-import { render } from '@testing-library/react';
 import AdminPage from '../pages/AdminPage';
 import IkPage from '../pages/IkPage';
 import InventoryPage from '../pages/InventoryPage';
-//hasrouter vs broweser router?
-//HashRouter as Router
+import StaffPage from '../pages/StaffPage'; 
 import { Authentication } from '../shared/AuthenticationContext';
 import ProtectedRoute from '../shared/ProtectedRoute';
 
 
+//hasrouter vs broweser router?
+//HashRouter as Router
 
 
 
 class App extends React.Component {
 
-  
-
-
   static contextType = Authentication;
   render() {
     const isLoggedIn = this.context.state.isLoggedIn;
-    const username = undefined;
     
     return (
-      <div >
-        
+      <div>
         <HashRouter>
           <TopBar />
           <Switch>
@@ -44,22 +38,13 @@ class App extends React.Component {
             <ProtectedRoute path="/admin" component={AdminPage} role="ADMIN" />
             <ProtectedRoute path="/ik" component={IkPage} role="IK" />
             <ProtectedRoute path="/inventory" component={InventoryPage} role="INVENTORYMASTER" />
+            
+            {/* StaffPage için eklenen yönlendirme */}
+            <ProtectedRoute path="/staffpage/:id?" component={StaffPage} role="IK" />
 
             <Redirect to="/" />
           </Switch>
         </HashRouter>
-        
-        {/*<LoginPage />   <HomePage /> <UserPage /> */}
-        
-
-        {/*
-        <ApiProgress path="/api/1.0/auth">
-          <LoginPage />
-          UserSignupPage
-        </ApiProgress>
-        */}
-        
-        
       </div>
     );
   }
