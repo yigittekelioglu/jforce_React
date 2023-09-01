@@ -19,7 +19,7 @@ const StaffPage = ({ onSave }) => {
                 setStaff(response.data);
             })
             .catch(error => {
-                console.error("Personel bilgisi alınırken bir hata oluştu:", error);
+                console.error("fetchstaff error:", error);
             });
     };
 
@@ -35,7 +35,7 @@ const StaffPage = ({ onSave }) => {
                     history.push('/ik');
                 })
                 .catch(error => {
-                    console.error("Bir hata oluştu:", error);
+                    console.error("submit error.", error);
                 });
         } else {
             axios.post(`/api/staff`, staff)
@@ -46,7 +46,7 @@ const StaffPage = ({ onSave }) => {
                     history.push('/ik');
                 })
                 .catch(error => {
-                    console.error("Bir hata oluştu:", error);
+                    console.error("submit error", error);
                 });
         }
     };

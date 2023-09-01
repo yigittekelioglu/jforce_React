@@ -8,17 +8,27 @@ const IkPage = () => {
     const [filters, setFilters] = useState({});
     const history = useHistory();
 
+    //bunu açınca sayfaya otomatik db den her şeyi çekiyo
+    /* 
     useEffect(() => {
         fetchStaffs();
-    }, []);
+    }, []);*/
 
     const fetchStaffs = () => {
+        const requestParams = {
+            adi: filters.adi || undefined,
+            soyadi: filters.soyadi || undefined,
+            tckn: filters.tckn || undefined,
+            birim: filters.birim || undefined,
+        };
+    
         axios.get('/api/staff/filter', {
-            params: filters
+            params: requestParams
         }).then(response => {
             setStaffs(response.data);
         });
     };
+    
 
     const handleFilterChange = (event) => {
         const { name, value } = event.target;

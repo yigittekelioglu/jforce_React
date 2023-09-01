@@ -95,3 +95,9 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 -Protected route kuruldu
 
 -Ik personel işlemleri tamamlandı
+
+-InventoryMaster Inventory ekleme ve filtreleme işlemleri tamamlandı.
+
+-Admin sayfası yapıldı.
+
+-Admin rolundeki kullanıcı başka kullanıcılara rol ataması gerçekleştirebiliyor.

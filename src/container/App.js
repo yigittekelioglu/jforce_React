@@ -9,6 +9,7 @@ import TopBar from '../components/TopBar';
 import AdminPage from '../pages/AdminPage';
 import IkPage from '../pages/IkPage';
 import InventoryPage from '../pages/InventoryPage';
+import InventoryMasterPage  from '../pages/InventoryMasterPage'
 import StaffPage from '../pages/StaffPage'; 
 import { Authentication } from '../shared/AuthenticationContext';
 import ProtectedRoute from '../shared/ProtectedRoute';
@@ -37,10 +38,12 @@ class App extends React.Component {
 
             <ProtectedRoute path="/admin" component={AdminPage} role="ADMIN" />
             <ProtectedRoute path="/ik" component={IkPage} role="IK" />
-            <ProtectedRoute path="/inventory" component={InventoryPage} role="INVENTORYMASTER" />
+            <ProtectedRoute path="/inventory" component={InventoryMasterPage} role="INVENTORYMASTER" />
             
-            {/* StaffPage için eklenen yönlendirme */}
+            
             <ProtectedRoute path="/staffpage/:id?" component={StaffPage} role="IK" />
+            <ProtectedRoute path="/inventorypage/:id?" component={InventoryPage} role="INVENTORYMASTER" />
+
 
             <Redirect to="/" />
           </Switch>
