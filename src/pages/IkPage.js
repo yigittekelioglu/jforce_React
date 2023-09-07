@@ -1,21 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
-import StaffPage from './StaffPage';
+//import StaffPage from './StaffPage';
 
+//query değiştir ikisi farklıysa boş gelsin
 const IkPage = () => {
     const [staffs, setStaffs] = useState([]); 
     const [filters, setFilters] = useState({});
+    const [zimmetStaffs, setZimmetStaffs] = useState([]);
     const history = useHistory();
 
     //bunu açınca sayfaya otomatik db den her şeyi çekiyo
-    /* 
     useEffect(() => {
         fetchStaffs();
-    }, []);*/
+        fetchZimmetStaffs();
+        
+    }, []);
+
 
     const fetchStaffs = () => {
-        const requestParams = {
+        const filterStaffParameters = {
             adi: filters.adi || undefined,
             soyadi: filters.soyadi || undefined,
             tckn: filters.tckn || undefined,
@@ -23,22 +27,46 @@ const IkPage = () => {
         };
     
         axios.get('/api/staff/filter', {
-            params: requestParams
+            params: filterStaffParameters
         }).then(response => {
             setStaffs(response.data);
         });
     };
+
+    const fetchZimmetStaffs = () => {
+        const filterZimmetParameters = {
+            adi: filters.zimmetAdi || undefined,
+            sicilNumarasi: filters.zimmetSicilNumarasi || undefined,
+        };
     
-
-    const handleFilterChange = (event) => {
-        const { name, value } = event.target;
-        setFilters(currentFilters => ({ ...currentFilters, [name]: value }));
+        axios.get('/api/inventory-assignment/staff-search', {
+            params: filterZimmetParameters
+        }).then(response => {
+            setZimmetStaffs(response.data);
+        });
+    };
+    
+    //aynı fonksiyona indirgenebilme handlebuttonclick gibi? denedim oldu fakat yapılır mı?
+    const handleFilterStaffChange = (e) => {
+        const { name, value } = e.target;
+        setFilters(prev => ({ ...prev, [name]: value }));
     };
 
-    const handleEditClick = (staff) => {
-        history.push(`/staffpage/${staff.id}`);
+    const handleFilterZimmetChange = (e) => {
+        const { name, value } = e.target;
+        setFilters(prev => ({ ...prev, [name]: value }));
     };
 
+    const handleButtonClick = (item, type) => {
+        if (type === "staff") {
+            history.push(`/staffpage/${item.id}`);
+        } else if (type === "zimmet") {
+            //console.log("Stafke: ", item.id);
+            history.push(`/assignments/${item.id}`);
+        }
+    };
+
+   
     let staffTable;
     if (staffs.length > 0) {
         staffTable = (
@@ -62,15 +90,52 @@ const IkPage = () => {
                             <td>{staff.tckn}</td>
                             <td>{staff.birim}</td>
                             <td>
-                                <button className="btn btn-secondary" onClick={() => handleEditClick(staff)}>Güncelle</button>
+                                <button className="btn btn-secondary" onClick={() => handleButtonClick(staff, 'staff')}>Güncelle</button>
                             </td>
                         </tr>
                     ))}
                 </tbody>
             </table>
         );
-    } else {
+    } 
+    else {
         staffTable = <p className="alert alert-danger mt-4">Hiç personel bulunamadı.</p>;
+    }
+
+    let zimmetTable;
+    if(zimmetStaffs.length > 0){
+        zimmetTable = (
+            <table className="table table-striped table-bordered mt-4">
+                <thead>
+                    <tr>
+                        <th>Adı</th>
+                        <th>Soyadı</th>
+                        <th>Sicil Numarası</th>
+                        <th>Birim</th>
+                        <th>İşlem</th> 
+                    </tr>
+                </thead>
+                <tbody>
+                    {
+                        zimmetStaffs.map(staff => (
+                            <tr key={staff.id}>
+                                <td>{staff.adi}</td>
+                                <td>{staff.soyadi}</td>                 
+                                <td>{staff.sicilNumarasi}</td>
+                                <td>{staff.birim}</td> 
+                                <td>
+                                <button className="btn btn-secondary" onClick={() => handleButtonClick(staff, 'zimmet')} >Zimmet İşlemleri</button>
+                                </td> 
+                            </tr>
+                        ))
+                    }
+                </tbody>
+            </table>
+        );
+        
+    }
+    else {
+        zimmetTable = <p className="alert alert-danger mt-4">Hiç personel bulunamadı.</p>
     }
 
     
@@ -79,29 +144,29 @@ const IkPage = () => {
     return (
         <div className='container'>
             <div>
-                <h1 className="text-center mt-2">Filtreleme</h1>
+                <h1 className="text-center mt-2">Personel Filtreleme</h1>
                 <div className='row'>
                     <div className='col-3'>
                         <div className="mt-3">
                 
-                            <input className="form-control" name="adi" onChange={handleFilterChange} placeholder="İsim"></input>
+                            <input className="form-control" name="adi" onChange={handleFilterStaffChange} placeholder="İsim"></input>
                         </div>
                     </div>
                     <div className='col-3'>
                         <div className="mt-3">
                             
-                            <input className="form-control" name="soyadi" onChange={handleFilterChange} placeholder="Soyisim"></input>
+                            <input className="form-control" name="soyadi" onChange={handleFilterStaffChange} placeholder="Soyisim"></input>
                         </div>
                     </div>
                     <div className='col-3'>
                         <div className="mt-3">
                            
-                            <input className="form-control" name="tckn" onChange={handleFilterChange} placeholder="TC"></input>
+                            <input className="form-control" name="tckn" onChange={handleFilterStaffChange} placeholder="TC"></input>
                         </div>
                     </div>
                     <div className='col-3'>
                         <div className="mt-3">
-                            <select className="form-control" name="birim" onChange={handleFilterChange}>
+                            <select className="form-control" name="birim" onChange={handleFilterStaffChange}>
                                 <option value="">Birim Seçiniz</option>
                                 <option value="YAZILIM_GELISTIRME">Yazılım Geliştirme</option>
                                 <option value="ARGE">Ar-Ge</option>
@@ -124,11 +189,36 @@ const IkPage = () => {
             
             <div className='row'>
                 <div className='col text-center'>
-                    <button className="mt-4 btn btn-secondary" onClick={() => history.push('/staffpage/new')}>
+                    <button className="mt-2 btn btn-secondary" onClick={() => history.push('/staffpage/')}>
                         Yeni Personel Ekle
                     </button>
                 </div>
             </div>
+            
+            
+            <h1 className="text-center mt-3">Zimmet Personel Filtreleme</h1>
+            <div className='row'>
+                <div className='col-5'>
+                    <input className="form-control" name="zimmetAdi" onChange={handleFilterZimmetChange} placeholder="İsim"></input>
+                </div>
+                <div className='col-5'>
+                    <input className="form-control" name="zimmetSicilNumarasi" onChange={handleFilterZimmetChange} placeholder="Sicil Numarası"></input>
+                </div>
+                <div className='col-2 text-center'>
+                    <button className=" btn btn-secondary" onClick={fetchZimmetStaffs}>
+                        Zimmete Göre Filtrele
+                    </button>
+                </div>
+            </div>
+
+            <h1 className="mt-3 text-center">Personel Listesi</h1>
+            
+            {zimmetTable}
+
+
+
+
+
         </div>
     );
     

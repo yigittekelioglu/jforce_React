@@ -1,86 +1,55 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, useHistory } from 'react-router-dom'; 
+//cascade ile tipi bağlama yapmak gerek
 
 const InventoryPage = () => {
     const { id } = useParams(); 
+    const [inventory, setInventory] = useState({});
     const history = useHistory(); 
+    //basta parametreleri belirtmek mş belirtmemek mi?
 
-    const [inventory, setInventory] = useState({
-        type: '', 
-        entryDate: '', 
-        brand: '', 
-        model: '', 
-        serialNumber: '', 
-        status: ''
-    });
 
     useEffect(() => {
         if (id) {
-            fetch(`/api/inventory/${id}`)
-                .then(response => response.json())
-                .then(data => {
-                    setInventory(prev => ({
-                        ...prev,
-                        id: data.id || prev.id,
-                        type: data.type || '',
-                        entryDate: data.entryDate || '',
-                        brand: data.brand || '',
-                        model: data.model || '',
-                        serialNumber: data.serialNumber || '',
-                        status: data.status || ''
-                    }))
-                })                
-                .catch(error => console.error("loading inventory error:", error));
+            axios.get(`/api/inventory/${id}`)
+                .then(response => {
+                    setInventory(response.data);
+                })
         }
     }, [id]);
     
 
-    const handleChange = (e) => {
+    const handleInventoryChange = (e) => {
         const { name, value } = e.target;
-        setInventory(prevState => ({
-            ...prevState,
-            [name]: value
-        }));
+        setInventory(prev => ({...prev,[name]: value}));
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
-
-        console.log("Data:", inventory);
-
-        try {
-            let response;
-            if (inventory.id) {
-                response = await axios.put(`/api/inventory/${inventory.id}`, inventory);
-            } else {
-                response = await axios.post('/api/inventory', inventory);
-            }
-            
-            const data = response.data;
     
-            setInventory({
-                id: data.id || null,
-                type: data.type || '',
-                entryDate: data.entryDate || '',
-                brand: data.brand || '',
-                model: data.model || '',
-                serialNumber: data.serialNumber || '',
-                status: data.status || ''
-            });
-
-            
-            history.push('/inventory');
-        } catch (error) {
-            console.error("ınventory submit error:", error);
+        if (inventory.id) {
+            axios.put(`/api/inventory/${inventory.id}`, inventory)
+                .then(response => {
+                    setInventory(response.data);
+                    history.push('/inventory');
+                })
+        } 
+        else {
+            axios.post('/api/inventory', inventory)
+                .then(response => {
+                    setInventory(response.data);
+                    history.push('/inventory');
+                })
         }
     };
+    
     
 
 
     return (
         <div className='container'>
-            <h1 className="text-center mt-2">Personel Bilgisi</h1>
+            <h1 className="text-center mt-2">Envanter Bilgisi</h1>
 
             <form onSubmit={handleSubmit}>
                 <div className='row mt-3'>
@@ -90,7 +59,7 @@ const InventoryPage = () => {
                         type="text" 
                         name="type" 
                         value={inventory.type?.type || inventory.type || ''}
-                        onChange={handleChange}
+                        onChange={handleInventoryChange}
                         />
                     </div>
                     <div className='col-4 text-center'>
@@ -99,7 +68,7 @@ const InventoryPage = () => {
                             type="date" 
                             name="entryDate" 
                             value={inventory.entryDate }
-                            onChange={handleChange}
+                            onChange={handleInventoryChange}
                         />
                     </div>
                     <div className='col-4 text-center'>
@@ -108,7 +77,7 @@ const InventoryPage = () => {
                             type="text" 
                             name="brand" 
                             value={inventory.brand || ''}
-                            onChange={handleChange}
+                            onChange={handleInventoryChange}
                         />
                     </div>
                 </div>
@@ -119,7 +88,7 @@ const InventoryPage = () => {
                             type="text" 
                             name="model" 
                             value={inventory.model || ''}
-                            onChange={handleChange}
+                            onChange={handleInventoryChange}
                         />
                     </div>
                     <div className='col-4 text-center'>
@@ -128,7 +97,7 @@ const InventoryPage = () => {
                             type="text" 
                             name="serialNumber" 
                             value={inventory.serialNumber || ''}
-                            onChange={handleChange}
+                            onChange={handleInventoryChange}
                         />
                     </div>
                     <div className='col-4 text-center'>
@@ -136,7 +105,7 @@ const InventoryPage = () => {
                         <select className='form-control'
                             name="status" 
                             value={inventory.status || ''}
-                            onChange={handleChange}
+                            onChange={handleInventoryChange}
                         >
                             <option value="">Durum Seçiniz</option>
                             <option value="IN_PERSON">Kişide</option>

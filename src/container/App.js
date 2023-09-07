@@ -13,6 +13,7 @@ import InventoryMasterPage  from '../pages/InventoryMasterPage'
 import StaffPage from '../pages/StaffPage'; 
 import { Authentication } from '../shared/AuthenticationContext';
 import ProtectedRoute from '../shared/ProtectedRoute';
+import InventoryAssignmentPage from '../pages/InventoryAssignmentPage';
 
 
 //hasrouter vs broweser router?
@@ -43,6 +44,8 @@ class App extends React.Component {
             
             <ProtectedRoute path="/staffpage/:id?" component={StaffPage} role="IK" />
             <ProtectedRoute path="/inventorypage/:id?" component={InventoryPage} role="INVENTORYMASTER" />
+            <ProtectedRoute path="/assignments/:id" component={InventoryAssignmentPage} role="IK" />
+
 
 
             <Redirect to="/" />

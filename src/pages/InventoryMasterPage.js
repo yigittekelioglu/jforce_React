@@ -1,53 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+import axios from 'axios';
 
 const InventoryMasterPage = () => {
     const [inventories, setInventories] = useState([]);
     const [inventoryTypes, setInventoryTypes] = useState([]);
     const [selectedType, setSelectedType] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
-    const [shouldLoadInventories, setShouldLoadInventories] = useState(false); 
     const history = useHistory();
 
     useEffect(() => {
-        if (shouldLoadInventories) {
-            loadInventories();
-            setShouldLoadInventories(false);  
-        }
-        loadInventoryTypes();
-    }, [shouldLoadInventories]);
+        fetchInventoryTypes();
+    }, []);  
 
-    const loadInventories = () => {
+    const fetchInventories = () => {
         let url = '/api/inventory/filter';
         if (selectedType) {
             url += `?typeName=${selectedType.type}`;
         }
-
-        fetch(url)
+        axios.get(url)
             .then(response => {
-                if (!response.ok) {
-                    throw new Error(`error: ${response.status}`);
-                }
-                return response.json();
+                setInventories(response.data);
             })
-            .then(data => {
-                setInventories(data);
-                setIsLoading(false);
-            })
-            .catch(error => console.error("load ınventory error:", error));
     };
-
-    const loadInventoryTypes = () => {
-        fetch('/api/inventory/types')
-            .then(response => response.json())
-            .then(data => {
-                if (Array.isArray(data)) {
-                    setInventoryTypes(data);
-                } else {
-                    console.error("array error.");
-                }
+    const fetchInventoryTypes = () => {
+        axios.get('/api/inventory/types')
+            .then(response => {
+                setInventoryTypes(response.data);
             })
-            .catch(error => console.error("ınventorytype loading error:", error));
     };
 
     const handleTypeChange = (e) => {
@@ -57,8 +36,9 @@ const InventoryMasterPage = () => {
     };
 
     const handleFilterClick = () => {
-        setShouldLoadInventories(true); 
+        fetchInventories();
     };
+
 
     let inventoryTable;
     if (inventories.length > 0) {
