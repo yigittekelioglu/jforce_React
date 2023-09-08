@@ -29,7 +29,7 @@ class App extends React.Component {
     
     return (
       <div>
-        <HashRouter>
+        <BrowserRouter>
           <TopBar />
           <Switch>
             <Route exact path="/" component={HomePage}/>
@@ -50,7 +50,7 @@ class App extends React.Component {
 
             <Redirect to="/" />
           </Switch>
-        </HashRouter>
+        </BrowserRouter>
       </div>
     );
   }

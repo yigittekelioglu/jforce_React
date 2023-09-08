@@ -66,6 +66,17 @@ const IkPage = () => {
         }
     };
 
+    function birimConverter(birim) {
+        if (birim === 'YAZILIM_GELISTIRME') {
+            return 'Yazılım Geliştirme';
+        } else if (birim === 'ARGE') {
+            return 'Ar-Ge';
+        } else {
+            return birim;
+        }
+    }
+    
+
    
     let staffTable;
     if (staffs.length > 0) {
@@ -88,9 +99,9 @@ const IkPage = () => {
                             <td>{staff.adi}</td>
                             <td>{staff.soyadi}</td>
                             <td>{staff.tckn}</td>
-                            <td>{staff.birim}</td>
+                            <td>{birimConverter(staff.birim)}</td>
                             <td>
-                                <button className="btn btn-secondary" onClick={() => handleButtonClick(staff, 'staff')}>Güncelle</button>
+                                <button className="btn btn-warning" onClick={() => handleButtonClick(staff, 'staff')}>Güncelle</button>
                             </td>
                         </tr>
                     ))}
@@ -122,9 +133,9 @@ const IkPage = () => {
                                 <td>{staff.adi}</td>
                                 <td>{staff.soyadi}</td>                 
                                 <td>{staff.sicilNumarasi}</td>
-                                <td>{staff.birim}</td> 
+                                <td>{birimConverter(staff.birim)}</td> 
                                 <td>
-                                <button className="btn btn-secondary" onClick={() => handleButtonClick(staff, 'zimmet')} >Zimmet İşlemleri</button>
+                                <button className="btn btn-warning" onClick={() => handleButtonClick(staff, 'zimmet')} >Zimmet İşlemleri</button>
                                 </td> 
                             </tr>
                         ))
@@ -165,8 +176,8 @@ const IkPage = () => {
                         </div>
                     </div>
                     <div className='col-3'>
-                        <div className="mt-3">
-                            <select className="form-control" name="birim" onChange={handleFilterStaffChange}>
+                        <div className="mt-3 ">
+                            <select className="form-select" name="birim" onChange={handleFilterStaffChange}>
                                 <option value="">Birim Seçiniz</option>
                                 <option value="YAZILIM_GELISTIRME">Yazılım Geliştirme</option>
                                 <option value="ARGE">Ar-Ge</option>
@@ -176,7 +187,7 @@ const IkPage = () => {
                 </div>
                 <div className='row'>
                     <div className='col text-center'>
-                        <button className="mt-4 btn btn-secondary" onClick={fetchStaffs}>
+                        <button className="mt-4 btn btn-success" onClick={fetchStaffs}>
                             Filtrele
                         </button>
                     </div>
@@ -189,7 +200,7 @@ const IkPage = () => {
             
             <div className='row'>
                 <div className='col text-center'>
-                    <button className="mt-2 btn btn-secondary" onClick={() => history.push('/staffpage/')}>
+                    <button className="mt-2 btn btn-primary" onClick={() => history.push('/staffpage/')}>
                         Yeni Personel Ekle
                     </button>
                 </div>
@@ -205,7 +216,7 @@ const IkPage = () => {
                     <input className="form-control" name="zimmetSicilNumarasi" onChange={handleFilterZimmetChange} placeholder="Sicil Numarası"></input>
                 </div>
                 <div className='col-2 text-center'>
-                    <button className=" btn btn-secondary" onClick={fetchZimmetStaffs}>
+                    <button className=" btn btn-success" onClick={fetchZimmetStaffs}>
                         Zimmete Göre Filtrele
                     </button>
                 </div>

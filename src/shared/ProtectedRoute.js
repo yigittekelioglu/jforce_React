@@ -6,6 +6,9 @@ const ProtectedRoute = ({component: Component, role, ...rest}) => {
     const context = React.useContext(Authentication);
     const currentUserRole = context.state.role;
 
+    
+
+
     return (
         <Route
             {...rest}
@@ -14,9 +17,6 @@ const ProtectedRoute = ({component: Component, role, ...rest}) => {
                 {
                     return <Redirect to="/login" />;
                 }
-
-                
-                
                 if (currentUserRole.name === 'ADMIN' || currentUserRole.name === role) {
                     return <Component {...props} />;
                 } 

@@ -102,7 +102,7 @@ const InventoryPage = () => {
                     </div>
                     <div className='col-4 text-center'>
                         <label>Durumu:</label>
-                        <select className='form-control'
+                        <select className='form-select'
                             name="status" 
                             value={inventory.status || ''}
                             onChange={handleInventoryChange}
@@ -116,7 +116,7 @@ const InventoryPage = () => {
                 </div>
                 <div className='row  mt-3 mb-3'>
                     <div className='col text-center'>
-                        <button className="mt-4 btn btn-secondary" type="submit">Kaydet</button>
+                        <button className="mt-4 btn btn-primary" type="submit">Kaydet</button>
                     </div>
                 </div>
                 

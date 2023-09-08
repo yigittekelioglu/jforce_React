@@ -97,7 +97,7 @@ const InventoryAssignmentPage = () => {
                         <tr key={assignment.id}>
                             <td>{assignment.inventory.type.type}</td> 
                             <td>{assignment.inventory.brand}</td> 
-                            <td><button className="mt-2 btn btn-secondary" onClick={() => handleOpenReturnPopup(assignment)}>Zimmeti Geri Al</button></td>
+                            <td><button className="mt-2 btn btn-danger" onClick={() => handleOpenReturnPopup(assignment)}>Zimmeti Geri Al</button></td>
                         </tr>
                     ))}
                 </tbody>
@@ -118,7 +118,7 @@ const InventoryAssignmentPage = () => {
                                 <h3 className="modal-title">Yeni Zimmet Ekle</h3>
                             </div>
                             <div className="modal-body">
-                            <select className='form-control' onChange={(e) => setSelectedInventory(e.target.value)} value={selectedInventory}>
+                            <select className='form-select' onChange={(e) => setSelectedInventory(e.target.value)} value={selectedInventory}>
                                 <option value="">Lütfen bir öğe seçiniz</option>
                                 {unassignedInventories.map(inventory => (
                                     <option key={inventory.id} value={inventory.id}>
@@ -130,8 +130,8 @@ const InventoryAssignmentPage = () => {
                                 <label>Verilme Tarihi: <input className='form-control' type="date" value={pickupDate} onChange={(e) => setPickupDate(e.target.value)} /></label>
                             </div>
                             <div className="modal-footer d-flex justify-content-center">
-                                <button className="btn btn-secondary mr-2" onClick={handleAddAssignmentClick}>Onayla</button>
-                                <button className="btn btn-secondary" onClick={handleCloseAddPopup}>İptal</button>
+                                <button className="btn btn-primary mr-2" onClick={handleAddAssignmentClick}>Onayla</button>
+                                <button className="btn btn-warning" onClick={handleCloseAddPopup}>İptal</button>
                             </div>
                         </div>
                     </div>
@@ -154,8 +154,8 @@ const InventoryAssignmentPage = () => {
                                 </div>
                             </div>
                             <div className="modal-footer d-flex justify-content-center">
-                                <button className="btn btn-secondary mr-2" onClick={handleReturnAssignmentClick}>Onayla</button>
-                                <button className="btn btn-secondary" onClick={handleCloseReturnPopup}>İptal</button>
+                                <button className="btn btn-danger mr-2" onClick={handleReturnAssignmentClick}>Onayla</button>
+                                <button className="btn btn-warning" onClick={handleCloseReturnPopup}>İptal</button>
                             </div>
                         </div>
                     </div>
@@ -178,7 +178,7 @@ const InventoryAssignmentPage = () => {
 
             <div className='row'>
                 <div className='col text-center'>
-                    <button className="mt-2 btn btn-secondary" onClick={handleOpenAddPopup}>
+                    <button className="mt-2 btn btn-primary" onClick={handleOpenAddPopup}>
                         Yeni Zimmet Ekle
                     </button>
                 </div>

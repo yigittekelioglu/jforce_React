@@ -32,18 +32,6 @@ const AdminPage = () => {
         <div>
             <div className='container'>
                 <h1 className="text-center mt-3">Admin Paneli</h1>
-                <div className='row mt-3'>
-                    <div className='col-6 text-center'>
-                        <button className="mt-2 btn btn-secondary" onClick={() => history.push('/ik')}>
-                            Ik Sayfası
-                        </button>
-                    </div>
-                    <div className='col-6 text-center'>
-                        <button className="mt-2 btn btn-secondary" onClick={() => history.push('/inventory')}>
-                            Envanter Sayfası
-                        </button>
-                    </div>
-                </div>
                 
                 <div className='row mt-3'>
                     <div className='col'>

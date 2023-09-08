@@ -5,7 +5,7 @@ const ButtonWithProgress = (props) => {
     const {onClick, pendingApiCall, disabled} = props;
 
     return (
-        <button className="mt-3 btn btn-secondary" onClick={onClick} disabled={disabled}> {pendingApiCall && <span className="spinner-border spinner-border-sm"></span> } 
+        <button className="mt-3 btn btn-primary" onClick={onClick} disabled={disabled}> {pendingApiCall && <span className="spinner-border spinner-border-sm"></span> } 
             Sign Up
         </button>
     );

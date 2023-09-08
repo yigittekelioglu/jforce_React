@@ -61,7 +61,7 @@ const InventoryMasterPage = () => {
                             <td>{inventory.model}</td>
                             <td>{inventory.serialNumber}</td>
                             <td>
-                                <button className="btn btn-secondary" onClick={() => history.push(`/inventorypage/${inventory.id}`)}>Güncelle</button>
+                                <button className="btn btn-warning" onClick={() => history.push(`/inventorypage/${inventory.id}`)}>Güncelle</button>
                             </td>
                         </tr>
                     ))}
@@ -78,7 +78,7 @@ const InventoryMasterPage = () => {
                 <h1 className="text-center mt-2">Filtreleme</h1>
                 <div className='row'>
                     <div className='col-10 mt-3'>
-                    <select className="form-control" onChange={handleTypeChange}>
+                    <select className="form-select" onChange={handleTypeChange}>
                         <option value="">Lütfen Envanter Tipi Seçiniz</option>
                         {inventoryTypes.map(type => (
                             <option key={type.id} value={type.id}>{type.type}</option>
@@ -86,7 +86,7 @@ const InventoryMasterPage = () => {
                     </select>
                     </div>
                     <div className='col-2 mt-3'>
-                        <button className="btn btn-secondary" onClick={handleFilterClick}>Filtrele</button> 
+                        <button className="btn btn-success" onClick={handleFilterClick}>Filtrele</button> 
                     </div>
                 </div>
             </div>
@@ -96,7 +96,7 @@ const InventoryMasterPage = () => {
             
             <div className='row mb-3'>
                 <div className='col text-center'>
-                    <button className="mt-2 btn btn-secondary" onClick={() => history.push('/inventorypage/')}>Yeni Zimmet Ekle</button>
+                    <button className="mt-2 btn btn-primary" onClick={() => history.push('/inventorypage/')}>Yeni Zimmet Ekle</button>
                 </div>
             </div>
        </div>
